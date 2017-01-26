@@ -1,0 +1,13 @@
+F:\project\c#\cov\cov\bin\Debug\cov.exe
+F:\project\c#\cov\cov\bin\Debug\cov.pdb
+F:\project\c#\cov\cov\obj\x86\Debug\cov.Form1.resources
+F:\project\c#\cov\cov\obj\x86\Debug\cov.Properties.Resources.resources
+F:\project\c#\cov\cov\obj\x86\Debug\cov.csproj.GenerateResource.Cache
+F:\project\c#\cov\cov\obj\x86\Debug\cov.exe
+F:\project\c#\cov\cov\obj\x86\Debug\cov.pdb
+F:\project\c#\cov\cov\obj\x86\Debug\cov.csprojResolveAssemblyReference.cache
+F:\project\c#\cov\cov\bin\Debug\Microsoft.Office.Interop.Word.dll
+F:\project\c#\cov\cov\bin\Debug\office.dll
+F:\project\c#\cov\cov\bin\Debug\Microsoft.Vbe.Interop.dll
+F:\project\c#\cov\cov\bin\Debug\Microsoft.Office.Interop.Word.xml
+F:\project\c#\cov\cov\bin\Debug\office.xml

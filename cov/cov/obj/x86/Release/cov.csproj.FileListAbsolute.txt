@@ -1,0 +1,13 @@
+F:\project\c#\cov\cov\bin\Release\cov.exe
+F:\project\c#\cov\cov\bin\Release\cov.pdb
+F:\project\c#\cov\cov\obj\x86\Release\cov.Form1.resources
+F:\project\c#\cov\cov\obj\x86\Release\cov.Properties.Resources.resources
+F:\project\c#\cov\cov\obj\x86\Release\cov.csproj.GenerateResource.Cache
+F:\project\c#\cov\cov\obj\x86\Release\cov.exe
+F:\project\c#\cov\cov\obj\x86\Release\cov.pdb
+F:\project\c#\cov\cov\bin\Release\Microsoft.Office.Interop.Word.dll
+F:\project\c#\cov\cov\bin\Release\office.dll
+F:\project\c#\cov\cov\bin\Release\Microsoft.Vbe.Interop.dll
+F:\project\c#\cov\cov\bin\Release\Microsoft.Office.Interop.Word.xml
+F:\project\c#\cov\cov\bin\Release\office.xml
+F:\project\c#\cov\cov\obj\x86\Release\cov.csprojResolveAssemblyReference.cache
