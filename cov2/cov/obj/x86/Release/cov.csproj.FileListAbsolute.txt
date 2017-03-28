@@ -25,3 +25,5 @@ F:\project\c#\cov2\cov\obj\x86\Release\cov.Properties.Resources.resources
 F:\project\c#\cov2\cov\obj\x86\Release\cov.csproj.GenerateResource.Cache
 D:\Project\c#\cov2\cov\obj\x86\Release\cov.exe
 D:\Project\c#\cov2\cov\obj\x86\Release\cov.pdb
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.exe
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.pdb

@@ -28,8 +28,10 @@ namespace cov
         private int MaxNum = -1;
         private int MaxMinus = 1;
         private float scale = 1;
+        // Draw the data
         private void UpdateState()
         {
+            // Preparation work
             ghp = Graphics.FromImage(bmp);
             ghp.Clear(pictureBox1.BackColor);
             myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
@@ -38,6 +40,8 @@ namespace cov
             myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             ghp.DrawLine(myPen, (float)pictureBox1.Width / 2, 0, (float)pictureBox1.Width / 2, pictureBox1.Height);
             myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+
+            // Get the unit of frequency and then will calculate the X-coordiante according to it
             if (!string.IsNullOrEmpty(label4.Text))
             {
                 if (label4.Text[label4.Text.Length - 1] == 'M' || label4.Text[label4.Text.Length - 1] == 'm')
@@ -55,6 +59,8 @@ namespace cov
                 ghp.DrawString("单位：us", new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red), 1, 1);
             }
             myPen.Color = Color.BlueViolet;
+
+            // Draw all the result points
             for (int i = 0; i < result.Count - 1; i++)
             {
                 ghp.DrawLine(myPen, (float)(i) / (float)(2 * Len - 2) * (float)pictureBox1.Width, (float)(1.05 * Max - result[i]) / 2/(float)(1.05 * Max) * (float)pictureBox1.Height,
@@ -69,6 +75,8 @@ namespace cov
                     (float)MaxNum / (2 * Len - 2) * pictureBox1.Width + 8, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height + MaxMinus * 8);
             }
             myPen.Color = Color.DarkGreen;
+
+            // Draw the sub X-axis
             for (int i = 0; i < 5; i++)
             {
                 ghp.DrawLine(myPen, (float)pictureBox1.Width / 2 - (float)pictureBox1.Width * i / 10, (float)pictureBox1.Height / 2 + 5,
@@ -100,15 +108,18 @@ namespace cov
         private int Len = 0;
         private void button1_Click(object sender, EventArgs e)
         {
+            // If there is already a threat to calculate, stop it
             if (DataCal != null && DataCal.ThreadState == System.Threading.ThreadState.Running)
             {
                 DataCal.Abort();
             }
+
+            // Get the 2 columns of data
             dt = GetDataFromExcelByConn(false);
-            //int adsf = dt.Columns.Count;
             dt2 = GetDataFromExcelByConn(false);
             if (dt != null && dt2 != null)
             {
+                // Get the frequncy and display it
                 for(int i = 0; i< label2.Text.Length; i++)
                 {
                     if(label2.Text[i] == 'M' || label2.Text[i] == 'K' || label2.Text[i] == 'G' || label2.Text[i] == 'k' || label2.Text[i] == 'g' || label2.Text[i] == 'm' )
@@ -117,6 +128,8 @@ namespace cov
                         break;
                     }
                 }
+
+                // Some init work
                 label8.Visible = false;
                 MouseDowned = false;
                 ScaleFlag = false;
@@ -124,6 +137,8 @@ namespace cov
                 Max = 1;
                 MaxNum = -1;
                 MaxMinus = 1;
+
+                // Update len
                 Len = int.Parse(textBox1.Text);
                 if (Len > (dt.Rows.Count/10*10) / 2)
                 {
@@ -131,11 +146,15 @@ namespace cov
                     textBox1.Text = Len.ToString();
                     MessageBox.Show("有效计算点数超出范围","提示");
                 }
+
+                // Move data to one table
                 dt.Columns.Add();
                 for (int i = 2; i < dt2.Rows.Count; i++)
                 {
                     dt.Rows[i][2] = dt2.Rows[i][1];
                 }
+
+                // Start to calculate
                 result.Clear();
                 CalComp = false;
                 DataCal = new System.Threading.Thread(new System.Threading.ThreadStart(cal));
@@ -144,6 +163,8 @@ namespace cov
         }
 
         private bool CalComp = false;
+
+        // Calculate the correlation result
         private void cal()
         {
             this.Invoke(new EventHandler(delegate
@@ -180,11 +201,10 @@ namespace cov
                 {
                     label6.Text = "计算完成";
                 }));
-
-
         }
 
         private string FileName = "";
+        // Get data for excel
         DataTable GetDataFromExcelByConn(bool hasTitle = false)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -236,6 +256,7 @@ namespace cov
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Init
             label8.Parent = pictureBox1;
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             myPen = new Pen(Color.BlueViolet);
@@ -244,23 +265,31 @@ namespace cov
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Abort process when closing application
             if(DataCal != null)
             {
                 DataCal.Abort();
             }
         }
 
+        // 用mouse down/move/up 实现缩放功能, 只支持一次缩放
         private bool MouseDowned = false;
         private float InitX = 0;
+        // When mouse down on picture box, record the init X-coordinate
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            // Make sure calculation is completed
             if (CalComp)
-            {
+            {   
+                // Make sure it's not in scaled mode
                 if (!ScaleFlag)
                 {
+                    // Record some variables
                     MouseDowned = true;
                     float x = e.X;
                     InitX = x;
+
+                    // Draw the Init left line
                     ghp = Graphics.FromImage(bmp);
                     myPen.Color = Color.Black;
                     myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
@@ -285,18 +314,23 @@ namespace cov
         private bool FirstMove = true;
         private Bitmap InitBmp;
         private Bitmap TempBmp;
+        // When mouse move after mouse down on picture box, draw the district to be sacled
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             float x = e.X;
             float y = e.Y;
+            // Make sure mouse down on picture box
             if (MouseDowned)
             {
                 label8.Visible = false;
+                // If first move, give an intilia bmp
                 if (FirstMove)
                 {
                     InitBmp = new Bitmap(pictureBox1.Image);
                     FirstMove = false;
                 }
+
+                // Draw the scaled district box
                 if (TempBmp != null)
                 {
                     TempBmp.Dispose();
@@ -313,6 +347,7 @@ namespace cov
                         y > pictureBox1.Height / 2 ? y - 12 : y + 16);
                 pictureBox1.Image = TempBmp;
             }
+            // If just move on picture box but not mouse down, show the X-coordiannte of the mouse position
             else
             {
                 if (CalComp)
@@ -338,6 +373,7 @@ namespace cov
         private bool ScaleFlag = false;
         private int ceil = 0;
         private int floor = 0;
+        // When Mouse down and move and up, scale the chosen district, re-draw it
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             if (MouseDowned)
@@ -346,6 +382,7 @@ namespace cov
                 FirstMove = true;
                 float x = e.X;
 
+                // Calculate the ceil and floor of X-coordinate in chosen district
                 ceil = (int)Math.Ceiling((double)(e.X > InitX ? e.X : InitX) / pictureBox1.Width * (2 * Len - 1));
                 if (ceil > 2 * Len - 1)
                 {
@@ -356,6 +393,8 @@ namespace cov
                 {
                     floor = 0;
                 }
+
+                // If the district is wide enough, re-draw the picture to show this ditrict
                 if (ceil - floor > 1)
                 {
                     int width = ceil - floor;
@@ -406,6 +445,7 @@ namespace cov
             
         }
 
+        // Save to .doc
         private void SaveDoc(object strFileName)
         {
             Microsoft.Office.Interop.Word._Application WordApp = new Microsoft.Office.Interop.Word.ApplicationClass();
@@ -445,15 +485,22 @@ namespace cov
             WordApp.Quit(ref oMissing, ref oMissing, ref oMissing);
             MessageBox.Show("Word已存储！");
         }
+
+        // 短按“保存”按键和长按实现不同的功能
+        // 短按(<1s)保存当前图片为.bmp格式
+        // 长按(>1s)保存图片到word文档中
         private DateTime dt0;
+        // Record time when button down
         private void button2_MouseDown(object sender, MouseEventArgs e)
         {
             dt0 = DateTime.Now;
         }
 
+        // React according to different press time
         private void button2_MouseUp(object sender, MouseEventArgs e)
         {
             TimeSpan ts = DateTime.Now - dt0;
+            // Save to .bmp when short pressing
             if(ts.TotalMilliseconds < 1000)
             {
                 SaveFileDialog sfd = new SaveFileDialog();
@@ -465,6 +512,7 @@ namespace cov
                     pictureBox1.Image.Save(sfd.FileName);
                 }
             }
+            // Save to .doc when long pressing
             else
             {
                 SaveFileDialog sfd = new SaveFileDialog(); 
