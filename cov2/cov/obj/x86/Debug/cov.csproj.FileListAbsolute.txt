@@ -24,3 +24,17 @@ F:\project\c#\cov2long\cov\obj\x86\Debug\cov.csprojResolveAssemblyReference.cach
 F:\project\c#\cov2long\cov\obj\x86\Debug\cov.Form1.resources
 F:\project\c#\cov2long\cov\obj\x86\Debug\cov.Properties.Resources.resources
 F:\project\c#\cov2long\cov\obj\x86\Debug\cov.csproj.GenerateResource.Cache
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.exe
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.pdb
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\cov.exe
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\cov.pdb
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\Microsoft.Office.Interop.Word.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\office.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\Microsoft.Vbe.Interop.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\stdole.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\Microsoft.Office.Interop.Word.xml
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Debug\office.xml
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.csprojResolveAssemblyReference.cache
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.Form1.resources
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.Properties.Resources.resources
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Debug\cov.csproj.GenerateResource.Cache

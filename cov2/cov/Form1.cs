@@ -94,7 +94,7 @@ namespace cov
                 {
                     ghp.DrawString(
                         (0 - scale * i * (LENGTH - Len) / 5) - (int)(0 - scale * i * (LENGTH - Len) / 5) == 0 ?
-                        (0 - scale * i * (LENGTH - Len) / 5).ToString("0") : (0 - scale * i * (1000 - Len) / 5).ToString("0.000"),
+                        (0 - scale * i * (LENGTH - Len) / 5).ToString("0") : (0 - scale * i * (LENGTH - Len) / 5).ToString("0.000"),
                         new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
                         (float)pictureBox1.Width / 2 - (float)pictureBox1.Width * i / 10 - 20, (float)pictureBox1.Height / 2 + 8);
                     ghp.DrawString(
