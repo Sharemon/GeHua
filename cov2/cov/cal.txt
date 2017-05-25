@@ -1,0 +1,104 @@
+//计算子线程
+        private void cal()
+        {
+            this.Invoke(new EventHandler(delegate
+                {
+                    label6.Text = "计算中....";
+                }));
+            double[] aver = new double[2];
+            aver[0] = 0;
+            aver[1] = 0;
+            for (int j = 0; j < LENGTH; j++)
+            {
+                aver[0] = aver[0] + data1[j];
+                aver[1] = aver[1] + data2[j];
+            }
+            aver[0] = aver[0] / LENGTH;
+            aver[1] = aver[1] / LENGTH;
+            //开始计算
+            /*
+            for (int j = 0; j < 2 * (LENGTH - Len) + 1; j++)
+            {
+                result.Add(0);
+                if (j < LENGTH - Len + 1)
+                {
+                    for (int i = (Len) + 1; i > 1; i--)
+                    {
+                        result[j] += (data2[i] - aver[1]) * (data1[LENGTH + 1 - j - (Len + 1 - i)] - aver[0]);
+                    }
+                }
+                else
+                {
+                    for (int i = 2; i < (Len) + 2; i++)
+                    {
+                        result[j] += (data1[i] - aver[0]) * (data2[i + (j - (LENGTH + 1 - Len)) + 1] - aver[1]);
+                    }
+                }
+                //更新最大值
+                if (Math.Abs(result[j]) >= Max)
+                {
+                    Max = Math.Abs(result[j]);
+                    MaxNum = j;
+                    MaxMinus = result[j] > 0 ? 1 : -1;
+                }
+                //更新曲线图
+                if ((0 == j % 1000) || (j == 2 * (LENGTH - Len)))
+                {
+                    this.Invoke(updateUI);
+                }
+            }*/
+            for (int i = 0; i < 2 * LENGTH - 1; i++)
+            {
+                result.Add(0);
+                int k = i - (LENGTH - 1);
+                for (int j = 0; j < LENGTH; j++)
+                {
+                    if (j - k >= 0 && j - k < LENGTH)
+                        result[i] += data1[j] * data2[j - k];
+                }
+                //更新最大值
+                if (Math.Abs(result[i]) >= Max)
+                {
+                    Max = Math.Abs(result[i]);
+                    MaxNum = i;
+                    MaxMinus = result[i] > 0 ? 1 : -1;
+                }
+                //更新曲线图
+                if ((0 == i % 1000) || (i == 2 * (LENGTH)))
+                {
+                    this.Invoke(updateUI);
+                }
+            }
+            this.Invoke(updateUI);
+            double[] sum = new double[3];
+            sum[0] = 0;
+            sum[1] = 0;
+            sum[2] = 0;
+            if (MaxNum < LENGTH)
+            {
+                for (int i = (LENGTH)-1; i > 0; i--)
+                {
+                    sum[0] += (data2[i] - aver[1]) * (data1[i + LENGTH - 1 - MaxNum] - aver[0]);
+                    sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
+                    sum[2] = sum[2] + Math.Pow((data1[i + LENGTH - 1 - MaxNum] - aver[0]), 2);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < (LENGTH); i++)
+                {
+                    sum[0] += (data1[i] - aver[0]) * (data2[i + (MaxNum - LENGTH) + 1] - aver[1]);
+                    sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
+                    sum[2] = sum[2] + Math.Pow((data2[i + (MaxNum - LENGTH) + 1] - aver[1]), 2);
+                }
+            }
+            related = sum[0] / Math.Sqrt(sum[1]*sum[2]);
+            CalComp = true;
+            this.Invoke(new EventHandler(delegate
+                {
+                    label6.Text = "计算完成";
+                    RShow.Text = "最高峰相关系数： " + (Math.Floor(related*10000)/10000).ToString("0.0000");
+                }));
+
+
+        }

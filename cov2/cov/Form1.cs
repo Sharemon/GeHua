@@ -68,18 +68,18 @@ namespace cov
             myPen.Color = Color.BlueViolet;
             for (int i = 0; i < result.Count - 1; i++)
             {
-                ghp.DrawLine(myPen, (float)(i) / (float)(2 * (LENGTH -  Len) - 1) * (float)pictureBox1.Width, (float)(1.05 * Max - result[i]) / 2/(float)(1.05 * Max) * (float)pictureBox1.Height,
-                    (float)(i + 1) / (float)(2 * (LENGTH - Len) - 1) * (float)pictureBox1.Width, (float)(1.05 * Max - result[i + 1]) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height);
+                ghp.DrawLine(myPen, (float)(i) / (float)(2 * (LENGTH) - 1) * (float)pictureBox1.Width, (float)(1.05 * Max - result[i]) / 2/(float)(1.05 * Max) * (float)pictureBox1.Height,
+                    (float)(i + 1) / (float)(2 * (LENGTH) - 1) * (float)pictureBox1.Width, (float)(1.05 * Max - result[i + 1]) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height);
             }
 
             //标出最大值点
             if (MaxNum != -1)
             {
                 //myPen = new Pen(Color.Red);
-                ghp.FillEllipse(new SolidBrush(Color.Red), (float)(MaxNum) / (2 * (LENGTH - Len) - 1) * pictureBox1.Width - 4, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height - 4, 8, 8);
+                ghp.FillEllipse(new SolidBrush(Color.Red), (float)(MaxNum) / (2 * (LENGTH) - 1) * pictureBox1.Width - 4, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height - 4, 8, 8);
                 //ghp.DrawEllipse(myPen, (float)MaxNum / int.Parse(Len) * pictureBox1.Width, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height, 2, 2);
-                ghp.DrawString("采样点序号差：" + ((MaxNum - (LENGTH + 1 - Len) + 1)).ToString(), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
-                    (float)MaxNum / (2 * (LENGTH - Len) - 1) * pictureBox1.Width + 8, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height + MaxMinus * 8);
+                ghp.DrawString("采样点序号差：" + ((MaxNum - (LENGTH-1))).ToString(), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
+                    (float)MaxNum / (2 * (LENGTH) - 1) * pictureBox1.Width + 8, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height + MaxMinus * 8);
             }
 
             //画次坐标轴
@@ -93,13 +93,13 @@ namespace cov
                 if (!string.IsNullOrEmpty(label4.Text))
                 {
                     ghp.DrawString(
-                        (0 - scale * i * (LENGTH - Len) / 5) - (int)(0 - scale * i * (LENGTH - Len) / 5) == 0 ?
-                        (0 - scale * i * (LENGTH - Len) / 5).ToString("0") : (0 - scale * i * (LENGTH - Len) / 5).ToString("0.000"),
+                        (0 - scale * i * (LENGTH) / 5) - (int)(0 - scale * i * (LENGTH) / 5) == 0 ?
+                        (0 - scale * i * (LENGTH) / 5).ToString("0") : (0 - scale * i * (LENGTH) / 5).ToString("0.000"),
                         new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
                         (float)pictureBox1.Width / 2 - (float)pictureBox1.Width * i / 10 - 20, (float)pictureBox1.Height / 2 + 8);
                     ghp.DrawString(
-                        (scale * i * (LENGTH - Len) / 5) - (int)(scale * i * (LENGTH - Len) / 5) == 0 ?
-                        (scale * i * (LENGTH - Len) / 5).ToString("0") : (scale * i * (LENGTH - Len) / 5).ToString("0.000"),
+                        (scale * i * (LENGTH) / 5) - (int)(scale * i * (LENGTH) / 5) == 0 ?
+                        (scale * i * (LENGTH) / 5).ToString("0") : (scale * i * (LENGTH) / 5).ToString("0.000"),
                         new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
                        (float)pictureBox1.Width / 2 + (float)pictureBox1.Width * i / 10 - 20, (float)pictureBox1.Height / 2 + 8);
                 }
@@ -110,6 +110,8 @@ namespace cov
         System.Threading.Thread DataCal;            //计算互相关的线程
         private DataTable dt = new DataTable();     //从第一个excel里面得到的数据
         private DataTable dt2 = new DataTable();    //从第二个excel里面得到的数据
+        private List<double> data1 = new List<double>();
+        private List<double> data2 = new List<double>();
         List<double> result = new List<double>();   //计算的结果
         private int Len = 0;                        //有效计算点数
 
@@ -152,9 +154,12 @@ namespace cov
                 }
                 dt.Columns.Add();
                 //将两个表的数据合并到一个表dt
+
                 for (int i = 2; i < dt2.Rows.Count; i++)
                 {
-                    dt.Rows[i][2] = dt2.Rows[i][1];
+                    //dt.Rows[i][2] = dt2.Rows[i][1];
+                    data1.Add(Convert.ToDouble(dt.Rows[i][1]));
+                    data2.Add(Convert.ToDouble(dt2.Rows[i][1]));
                 }
                 result.Clear();
                 CalComp = false;
@@ -178,12 +183,13 @@ namespace cov
             aver[1] = 0;
             for (int j = 0; j < LENGTH; j++)
             {
-                aver[0] = aver[0] + Convert.ToDouble(dt.Rows[j + 2][1]);
-                aver[1] = aver[1] + Convert.ToDouble(dt.Rows[j + 2][2]);
+                aver[0] = aver[0] + data1[j];
+                aver[1] = aver[1] + data2[j];
             }
             aver[0] = aver[0] / LENGTH;
             aver[1] = aver[1] / LENGTH;
             //开始计算
+            /*
             for (int j = 0; j < 2 * (LENGTH - Len) + 1; j++)
             {
                 result.Add(0);
@@ -191,14 +197,14 @@ namespace cov
                 {
                     for (int i = (Len) + 1; i > 1; i--)
                     {
-                        result[j] += (Convert.ToDouble(dt.Rows[i][2]) - aver[1]) * (Convert.ToDouble(dt.Rows[LENGTH + 1 - j - (Len + 1 - i)][1]) - aver[0]);
+                        result[j] += (data2[i] - aver[1]) * (data1[LENGTH + 1 - j - (Len + 1 - i)] - aver[0]);
                     }
                 }
                 else
                 {
                     for (int i = 2; i < (Len) + 2; i++)
                     {
-                        result[j] += (Convert.ToDouble(dt.Rows[i][1]) - aver[0]) * (Convert.ToDouble(dt.Rows[i + (j - (LENGTH + 1 - Len)) + 1][2]) - aver[1]);
+                        result[j] += (data1[i] - aver[0]) * (data2[i + (j - (LENGTH + 1 - Len)) + 1] - aver[1]);
                     }
                 }
                 //更新最大值
@@ -213,28 +219,50 @@ namespace cov
                 {
                     this.Invoke(updateUI);
                 }
+            }*/
+            for (int i = 0; i < 2 * LENGTH - 1; i++)
+            {
+                result.Add(0);
+                int k = i - (LENGTH - 1);
+                for (int j = 0; j < LENGTH; j++)
+                {
+                    if (j - k >= 0 && j - k < LENGTH)
+                        result[i] += data1[j] * data2[j - k];
+                }
+                //更新最大值
+                if (Math.Abs(result[i]) >= Max)
+                {
+                    Max = Math.Abs(result[i]);
+                    MaxNum = i;
+                    MaxMinus = result[i] > 0 ? 1 : -1;
+                }
+                //更新曲线图
+                if ((0 == i % 1000) || (i == 2 * (LENGTH)))
+                {
+                    this.Invoke(updateUI);
+                }
             }
             this.Invoke(updateUI);
             double[] sum = new double[3];
             sum[0] = 0;
             sum[1] = 0;
             sum[2] = 0;
-            if (MaxNum < LENGTH - Len + 1)
+            if (MaxNum < LENGTH)
             {
-                for (int i = (Len) + 1; i > 1; i--)
+                for (int i = (LENGTH)-1; i > 0; i--)
                 {
-                    sum[0] += (Convert.ToDouble(dt.Rows[i][2]) - aver[1]) * (Convert.ToDouble(dt.Rows[LENGTH + 1 - MaxNum - (Len + 1 - i)][1]) - aver[0]);
-                    sum[1] = sum[1] + Math.Pow((Convert.ToDouble(dt.Rows[i][2]) - aver[1]), 2);
-                    sum[2] = sum[2] + Math.Pow((Convert.ToDouble(dt.Rows[LENGTH + 1 - MaxNum - (Len + 1 - i)][1]) - aver[0]), 2);
+                    sum[0] += (data2[i] - aver[1]) * (data1[i + LENGTH - 1 - MaxNum] - aver[0]);
+                    sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
+                    sum[2] = sum[2] + Math.Pow((data1[i + LENGTH - 1 - MaxNum] - aver[0]), 2);
                 }
             }
             else
             {
-                for (int i = 2; i < (Len) + 2; i++)
+                for (int i = 0; i < (LENGTH); i++)
                 {
-                    sum[0] += (Convert.ToDouble(dt.Rows[i][1]) - aver[0]) * (Convert.ToDouble(dt.Rows[i + (MaxNum - (LENGTH + 1 - Len)) + 1][2]) - aver[1]);
-                    sum[1] = sum[1] + Math.Pow((Convert.ToDouble(dt.Rows[i][1]) - aver[0]), 2);
-                    sum[2] = sum[2] + Math.Pow((Convert.ToDouble(dt.Rows[i + (MaxNum - (LENGTH + 1 - Len)) + 1][2]) - aver[1]), 2);
+                    sum[0] += (data1[i] - aver[0]) * (data2[i + (MaxNum - LENGTH) + 1] - aver[1]);
+                    sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
+                    sum[2] = sum[2] + Math.Pow((data2[i + (MaxNum - LENGTH) + 1] - aver[1]), 2);
                 }
             }
             related = sum[0] / Math.Sqrt(sum[1]*sum[2]);
@@ -331,7 +359,7 @@ namespace cov
                     myPen.Color = Color.Black;
                     myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                     ghp.DrawLine(myPen, x, 0, x, (float)pictureBox1.Height);
-                    ghp.DrawString(Math.Round(((x - (float)pictureBox1.Width /2) / (float)pictureBox1.Width * 2 * (LENGTH - Len))).ToString(),
+                    ghp.DrawString(Math.Round(((x - (float)pictureBox1.Width /2) / (float)pictureBox1.Width * 2 * (LENGTH))).ToString(),
                         new System.Drawing.Font("宋体", 8, FontStyle.Bold), new SolidBrush(Color.Black), x > pictureBox1.Width / 2 ? x - 16 : x + 10, e.Y);
                     pictureBox1.Image = bmp;
                 }
@@ -374,7 +402,7 @@ namespace cov
                 ghp.DrawLine(myPen, InitX, 1, x, 1);
                 ghp.DrawLine(myPen, InitX, pictureBox1.Height - 1, x, pictureBox1.Height - 1);
                 ghp.DrawLine(myPen, x, 0, x, (float)pictureBox1.Height);
-                ghp.DrawString(Math.Round(((x - (float)pictureBox1.Width / 2) / (float)pictureBox1.Width * 2 * (LENGTH - Len))).ToString(),
+                ghp.DrawString(Math.Round(((x - (float)pictureBox1.Width / 2) / (float)pictureBox1.Width * 2 * (LENGTH))).ToString(),
                         new System.Drawing.Font("宋体", 8, FontStyle.Bold), new SolidBrush(Color.Black), x > pictureBox1.Width / 2 ? x - 16 : x + 10, 
                         y > pictureBox1.Height / 2 ? y - 12 : y + 16);
                 pictureBox1.Image = TempBmp;
@@ -385,14 +413,14 @@ namespace cov
                 {
                     if (!ScaleFlag)
                     {
-                        label8.Text = Math.Round(((x - (float)pictureBox1.Width / 2) / (float)pictureBox1.Width * 2 * (LENGTH - Len))).ToString();
+                        label8.Text = Math.Round(((x - (float)pictureBox1.Width / 2) / (float)pictureBox1.Width * 2 * (LENGTH))).ToString();
                         label8.Left = (int)(x > pictureBox1.Width / 2 ? x - 16 : x + 10);
                         label8.Top = (int)(y > pictureBox1.Height / 2 ? y - 12 : y + 16);
                         label8.Visible = true;
                     }
                     else
                     {
-                        label8.Text = Math.Round((x / (float)pictureBox1.Width * (ceil - floor) + floor - (LENGTH + 1 - Len - 1.5))).ToString();
+                        label8.Text = Math.Round((x / (float)pictureBox1.Width * (ceil - floor) + floor - (LENGTH + 1 - 1.5))).ToString();
                         label8.Left = (int)(x > pictureBox1.Width / 2 ? x - 16 : x + 10);
                         label8.Top = (int)(y > pictureBox1.Height / 2 ? y - 12 : y + 16);
                         label8.Visible = true;
@@ -412,12 +440,12 @@ namespace cov
                 FirstMove = true;
                 float x = e.X;
 
-                ceil = (int)Math.Ceiling((double)(e.X > InitX ? e.X : InitX) / pictureBox1.Width * (2 * (LENGTH + 1 - Len) - 1));
-                if (ceil > 2 * (LENGTH + 1 - Len) - 1)
+                ceil = (int)Math.Ceiling((double)(e.X > InitX ? e.X : InitX) / pictureBox1.Width * (2 * (LENGTH + 1) - 1));
+                if (ceil > 2 * (LENGTH + 1) - 1)
                 {
-                    ceil = 2 * (LENGTH + 1 - Len) - 1;
+                    ceil = 2 * (LENGTH + 1) - 1;
                 }
-                floor = (int)Math.Floor((double)(e.X < InitX ? e.X : InitX) / pictureBox1.Width * (2 * (LENGTH + 1 - Len) - 1));
+                floor = (int)Math.Floor((double)(e.X < InitX ? e.X : InitX) / pictureBox1.Width * (2 * (LENGTH + 1) - 1));
                 if (floor < 0)
                 {
                     floor = 0;
@@ -430,10 +458,10 @@ namespace cov
                     myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
                     myPen.Color = Color.DarkGreen;
                     ghp.DrawLine(myPen, 0, (float)pictureBox1.Height / 2, pictureBox1.Width, (float)pictureBox1.Height / 2);
-                    if (floor <= (LENGTH + 1 - Len) - 1 && (LENGTH + 1 - Len) - 1 <= ceil)
+                    if (floor <= (LENGTH + 1) - 1 && (LENGTH + 1) - 1 <= ceil)
                     {
                         myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                        ghp.DrawLine(myPen, (float)((LENGTH + 1 - Len) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, 0, (float)((LENGTH + 1 - Len) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, pictureBox1.Height);
+                        ghp.DrawLine(myPen, (float)((LENGTH + 1) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, 0, (float)((LENGTH + 1) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, pictureBox1.Height);
                         myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
                     }
                     ghp.DrawString("单位：us", new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red), 1, 1);
@@ -443,7 +471,7 @@ namespace cov
                             (float)pictureBox1.Width * i / 10, (float)pictureBox1.Height / 2 - 5);
                         if (!string.IsNullOrEmpty(label4.Text))
                         {
-                            ghp.DrawString((scale * ((float)(floor - (LENGTH + 1 - Len) + 1.5) + i * (float)(width) / 10)).ToString("0.000"), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
+                            ghp.DrawString((scale * ((float)(floor - (LENGTH + 1) + 1.5) + i * (float)(width) / 10)).ToString("0.000"), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
                                 (float)pictureBox1.Width * i / 10 - 20, (float)pictureBox1.Height / 2 + 8);
                         }
                     }
@@ -458,7 +486,7 @@ namespace cov
                         //myPen = new Pen(Color.Red);
                         ghp.FillEllipse(new SolidBrush(Color.Red), (float)(MaxNum - floor -0.5) / (width) * pictureBox1.Width - 4, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height - 4, 8, 8);
                         //ghp.DrawEllipse(myPen, (float)MaxNum / int.Parse(Len) * pictureBox1.Width, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height, 2, 2);
-                        ghp.DrawString("采样点序号差：" + ((MaxNum - (LENGTH + 1 - Len) + 1)).ToString(), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
+                        ghp.DrawString("采样点序号差：" + ((MaxNum - (LENGTH - 1))).ToString(), new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red),
                             (float)(MaxNum - floor - 0.5) / (width) * pictureBox1.Width + 8, (float)(1.05 * Max - MaxMinus * Max) / 2 / (float)(1.05 * Max) * (float)pictureBox1.Height + MaxMinus * 8);
                     }
                     pictureBox1.Image = bmp;
