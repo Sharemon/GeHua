@@ -155,6 +155,8 @@ namespace cov
                 dt.Columns.Add();
                 //将两个表的数据合并到一个表dt
 
+                data1.Clear();
+                data2.Clear();
                 for (int i = 2; i < dt2.Rows.Count; i++)
                 {
                     //dt.Rows[i][2] = dt2.Rows[i][1];
@@ -247,20 +249,20 @@ namespace cov
             sum[0] = 0;
             sum[1] = 0;
             sum[2] = 0;
-            if (MaxNum < LENGTH)
+            if (MaxNum <= LENGTH - 1)
             {
-                for (int i = (LENGTH)-1; i > 0; i--)
+                for (int i = 0; i <= MaxNum ; i++)
                 {
-                    sum[0] += (data2[i] - aver[1]) * (data1[i + LENGTH - 1 - MaxNum] - aver[0]);
+                    sum[0] += (data1[i] - aver[1]) * (data2[i + LENGTH - 1 - MaxNum] - aver[0]);
                     sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
                     sum[2] = sum[2] + Math.Pow((data1[i + LENGTH - 1 - MaxNum] - aver[0]), 2);
                 }
             }
             else
             {
-                for (int i = 0; i < (LENGTH); i++)
+                for (int i = 0; i < (2 * LENGTH - 1 -MaxNum); i++)
                 {
-                    sum[0] += (data1[i] - aver[0]) * (data2[i + (MaxNum - LENGTH) + 1] - aver[1]);
+                    sum[0] += (data2[i] - aver[0]) * (data1[i + (MaxNum - LENGTH) + 1] - aver[1]);
                     sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
                     sum[2] = sum[2] + Math.Pow((data2[i + (MaxNum - LENGTH) + 1] - aver[1]), 2);
                 }
@@ -461,7 +463,7 @@ namespace cov
                     if (floor <= (LENGTH + 1) - 1 && (LENGTH + 1) - 1 <= ceil)
                     {
                         myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                        ghp.DrawLine(myPen, (float)((LENGTH + 1) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, 0, (float)((LENGTH + 1) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, pictureBox1.Height);
+                        ghp.DrawLine(myPen, (float)((LENGTH ) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, 0, (float)((LENGTH + 1) - 1.5 - floor) / (float)width * (float)pictureBox1.Width, pictureBox1.Height);
                         myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
                     }
                     ghp.DrawString("单位：us", new System.Drawing.Font("宋体", 10), new SolidBrush(Color.Red), 1, 1);
