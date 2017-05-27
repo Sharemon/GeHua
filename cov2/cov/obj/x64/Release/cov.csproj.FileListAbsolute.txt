@@ -1,0 +1,12 @@
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\cov.exe
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\Microsoft.Office.Interop.Word.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\office.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\Microsoft.Vbe.Interop.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\stdole.dll
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\Microsoft.Office.Interop.Word.xml
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\x64\Release\office.xml
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x64\Release\cov.csprojResolveAssemblyReference.cache
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x64\Release\cov.Form1.resources
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x64\Release\cov.Properties.Resources.resources
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x64\Release\cov.csproj.GenerateResource.Cache
+C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x64\Release\cov.exe

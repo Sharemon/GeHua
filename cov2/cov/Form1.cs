@@ -229,7 +229,7 @@ namespace cov
                 for (int j = 0; j < LENGTH; j++)
                 {
                     if (j - k >= 0 && j - k < LENGTH)
-                        result[i] += data1[j] * data2[j - k];
+                        result[i] += (data1[j]-aver[0]) * (data2[j - k]-aver[1]);
                 }
                 //更新最大值
                 if (Math.Abs(result[i]) >= Max)
@@ -253,7 +253,7 @@ namespace cov
             {
                 for (int i = 0; i <= MaxNum ; i++)
                 {
-                    sum[0] += (data1[i] - aver[1]) * (data2[i + LENGTH - 1 - MaxNum] - aver[0]);
+                    sum[0] += (data1[i] - aver[0]) * (data2[i + LENGTH - 1 - MaxNum] - aver[1]);
                     sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
                     sum[2] = sum[2] + Math.Pow((data1[i + LENGTH - 1 - MaxNum] - aver[0]), 2);
                 }
@@ -262,7 +262,7 @@ namespace cov
             {
                 for (int i = 0; i < (2 * LENGTH - 1 -MaxNum); i++)
                 {
-                    sum[0] += (data2[i] - aver[0]) * (data1[i + (MaxNum - LENGTH) + 1] - aver[1]);
+                    sum[0] += (data2[i] - aver[1]) * (data1[i + (MaxNum - LENGTH) + 1] - aver[0]);
                     sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
                     sum[2] = sum[2] + Math.Pow((data2[i + (MaxNum - LENGTH) + 1] - aver[1]), 2);
                 }
