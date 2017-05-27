@@ -72,7 +72,6 @@ C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Release\Microsoft.Vbe.Interop
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Release\stdole.dll
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Release\Microsoft.Office.Interop.Word.xml
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\bin\Release\office.xml
-C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.csprojResolveAssemblyReference.cache
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.Form1.resources
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.Properties.Resources.resources
 C:\Users\Roy\Desktop\Proj Local\GeHua\cov2\cov\obj\x86\Release\cov.csproj.GenerateResource.Cache

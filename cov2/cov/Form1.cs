@@ -254,8 +254,8 @@ namespace cov
                 for (int i = 0; i <= MaxNum ; i++)
                 {
                     sum[0] += (data1[i] - aver[0]) * (data2[i + LENGTH - 1 - MaxNum] - aver[1]);
-                    sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
-                    sum[2] = sum[2] + Math.Pow((data1[i + LENGTH - 1 - MaxNum] - aver[0]), 2);
+                    sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
+                    sum[2] = sum[2] + Math.Pow((data2[i + LENGTH - 1 - MaxNum] - aver[1]), 2);
                 }
             }
             else
@@ -263,8 +263,8 @@ namespace cov
                 for (int i = 0; i < (2 * LENGTH - 1 -MaxNum); i++)
                 {
                     sum[0] += (data2[i] - aver[1]) * (data1[i + (MaxNum - LENGTH) + 1] - aver[0]);
-                    sum[1] = sum[1] + Math.Pow((data1[i] - aver[0]), 2);
-                    sum[2] = sum[2] + Math.Pow((data2[i + (MaxNum - LENGTH) + 1] - aver[1]), 2);
+                    sum[1] = sum[1] + Math.Pow((data2[i] - aver[1]), 2);
+                    sum[2] = sum[2] + Math.Pow((data1[i + (MaxNum - LENGTH) + 1] - aver[0]), 2);
                 }
             }
             related = sum[0] / Math.Sqrt(sum[1]*sum[2]);
@@ -422,7 +422,7 @@ namespace cov
                     }
                     else
                     {
-                        label8.Text = Math.Round((x / (float)pictureBox1.Width * (ceil - floor) + floor - (LENGTH + 1 - 1.5))).ToString();
+                        label8.Text = Math.Round((x / (float)pictureBox1.Width * (ceil - floor) + floor - (LENGTH - 1.5))).ToString();
                         label8.Left = (int)(x > pictureBox1.Width / 2 ? x - 16 : x + 10);
                         label8.Top = (int)(y > pictureBox1.Height / 2 ? y - 12 : y + 16);
                         label8.Visible = true;
